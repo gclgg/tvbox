@@ -1,0 +1,20 @@
+name: Sync with Upstream
+ 
+on:
+  schedule:
+    - cron: "0 9 45 * *"
+ 
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: main
+ 
+      - name: Sync with Upstream
+        run: |
+          git remote add upstream https://github.com/qist/tvbox.git || true
+          git fetch upstream
+          git merge upstream/main || true

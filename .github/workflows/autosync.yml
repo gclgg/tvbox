@@ -2,7 +2,7 @@ name: Sync Fork
 on:
   push: # push 时触发，主要用于测试配置是否正确
   schedule:
-    - cron: '* */3 * * *' # 每3小时触发一次，可根据项目更新频率调整
+    - cron: '0 1 * * *' # 每天1时触发一次，可根据项目更新频率调整
 jobs:
   repo-sync:
     runs-on: ubuntu-latest

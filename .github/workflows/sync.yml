@@ -5,7 +5,7 @@ name: 自动同步上游仓库代码
 # 触发事件：这里我们设置为定时任务，每周一和周四的凌晨3点触发
 on:
   schedule:
-    - cron: '0 10 * * *,*'
+    - cron: '0 10 * * * *'
 
 jobs:
   sync-upstream:

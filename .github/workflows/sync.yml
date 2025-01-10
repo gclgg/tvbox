@@ -1,35 +1,37 @@
-name: Sync with Upstream
- 
+name: 自动同步上游仓库代码
 
+# 触发事件：这里我们设置为定时任务，每周一和周四的凌晨3点触发
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 3 * * 1,4'
 
 jobs:
   sync-upstream:
-  
+    # 指定作业运行的环境：这里我们选择Ubuntu最新稳定版
     runs-on: ubuntu-latest
 
     steps:
-     
-      - 
+      # 步骤1：检出当前仓库的代码
+      - name: 检出当前仓库代码
         uses: actions/checkout@v4
         with:
-         
+          # 对于私有仓库，需要设置为false以避免在检出时创建额外的Git凭证
           persist-credentials: false
-          
+          # 如果你的仓库包含子模块，并且你也想同步它们，可以设置为true
           submodules: false
-        
+          # 指定要检出的分支，通常是main或master，根据你的仓库设置
           ref: master
 
-      
-        uses: TG908/fork-sync@v1.7.0 
+      # 步骤2：同步上游仓库的更改
+      # 这里我们使用TG908/fork-sync这个Action来同步上游仓库的更改
+      - name: 同步上游仓库更改
+        uses: TG908/fork-sync@v1.7.0 # 请注意检查并使用最新版本
         with:
-         
+          # 上游仓库的所有者/名称，替换为你的上游仓库地址
           upstream_repository: https://github.com/qist/tvbox.git
-        
+          # 上游仓库的分支，通常是main或master
           upstream_branch: master
-        
+          # 目标仓库的分支，与当前检出的分支相同
           target_branch: master
-          
+          # GitHub令牌，用于认证和访问仓库，这里使用GitHub提供的默认令牌
           github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,15 @@
+name: Sync Fork
+on:
+  push: # push 时触发，主要用于测试配置是否正确
+  schedule:
+    - cron: '* */3 * * *' # 每3小时触发一次，可根据项目更新频率调整
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: TG908/fork-sync@v1.6.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: qist # fork 的上游仓库 user
+          head: master # fork 的上游仓库 branch
+          base: master # 本地仓库 branch
